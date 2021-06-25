@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    >
+
+    <h:head>
+        <title>DashBord  </title>
+               <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous" />
+    </h:head>
+
+<h:body>
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+    <div class="container">
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav">
+          <li class="nav-item px-2">
+          <h:form>
+            <h:commandLink styleClass="nav-link active" value="Dashboard" action="clients"> </h:commandLink>
+            </h:form>
+          </li>
+           <li class="nav-item px-2">
+           
+            <h:form>
+            <h:commandLink  styleClass="nav-link" value="Command" action="commande"> </h:commandLink>
+            </h:form>
+           
+           
+          </li>
+          <h:form>
+            <h:commandLink  styleClass="nav-link " value="Produit" action="produit"> </h:commandLink>
+           </h:form>
+        
+          <li class="nav-item px-2">
+            
+            <h:form>
+            <h:commandLink  styleClass="nav-link " value="Categories" action="categorie"> </h:commandLink>
+           </h:form>
+          
+           
+          </li>
+          <li class="nav-item px-2">
+            <h:form>
+            <h:commandLink  styleClass="nav-link " value="Clients" action="clients"> </h:commandLink>
+            </h:form>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+          <h:form>
+          <h:commandLink action="#{dash.dec()}">  <i class="fas fa-user-times"></i> Logout</h:commandLink>
+         </h:form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <header id="main-header" class="py-2 bg-primary text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>
+            <i class="fas fa-cog"></i> Dashboard</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+    <!-- ACTIONS -->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addcmd">
+            <i class="fas fa-plus"></i> Ajouter Commande
+          </a>
+        </div>
+         <div class="col-md-3">
+          <a href="#" class="btn btn-danger btn-block" data-toggle="modal" data-target="#addProd">
+            <i class="fas fa-plus"></i> Ajouter Produit
+          </a>
+        </div>
+         <div>
+			<a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-target="#addcat" style="color:white ">            
+			<i class="fas fa-plus"></i> Ajouter Catgorie
+          </a>
+        </div>
+        
+        <div class="col-md-3">
+          <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#addclient">
+            <i class="fas fa-plus"></i> Ajouter Client
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+
+  
+  <!-- POSTS -->
+  <section id="posts">
+    <div class="container">
+        <c:if test="${not empty param.msg}" >
+  <div class="alert alert-dismissible alert-success">
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">X</span>
+					</button>
+				  <strong>Success</strong> Produit Ajouter !!.
+	</div>
+  </c:if>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="card">
+            <div class="card-header">
+              <h4>List Produit</h4>
+            </div>
+            <h:dataTable styleClass="table table-striped" value="#{dash.listprod}" var="tempcl">
+             
+              <h:column >
+                 <f:facet name="header">Id Produit</f:facet>
+                   #{tempcl.produitId}
+               </h:column>
+               <h:column >
+                 <f:facet name="header">libele</f:facet>
+                   #{tempcl.libele}
+               </h:column>
+               <h:column >
+                 <f:facet name="header">Prix</f:facet>
+                   #{tempcl.prix}
+               </h:column>
+            </h:dataTable>
+           
+          </div>
+        </div>
+    
+        
+        
+              
+        <!-- End -->
+        
+     </div>
+    </div>
+  </section>
+
+ <!-- ADD Cmd MODAL -->
+  
+  <div class="modal fade" id="addcmd">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">Ajouter Commande</h5>
+          <button class="close" data-dismiss="modal">
+                   x
+          </button>
+        </div>
+        <div class="modal-body">
+     <h:form>
+         <div class="col-md-6 col-sm-12 mx-auto">
+            <div class="login-form">
+                   
+                    
+                  <div class="form-group">
+                     <label >Client</label>
+                     <h:selectOneMenu styleClass="form-control"  value="#{dash.cltval}" >
+		             <f:selectItems value="#{dash.listdropclient.entrySet()}" var="entry" 
+                        itemValue="#{entry.key}" itemLabel="#{entry.value}"  />
+		            </h:selectOneMenu>
+                  </div> 
+                  
+                  <div class="form-group">
+                     <label >Produit</label>
+                     <h:selectOneMenu styleClass="form-control"  value="#{dash.prodval}" >
+		             <f:selectItems value="#{dash.listdropProduit.entrySet()}" var="entry" 
+                        itemValue="#{entry.key}" itemLabel="#{entry.value}"  />
+		            </h:selectOneMenu>
+                  </div>  
+                   
+                  
+                     <div class="form-group">
+                     <label >Adresss</label>
+                     <h:inputText styleClass="form-control" value="#{dash.cmd.adresse}" ></h:inputText>
+                  </div>
+                   <div class="form-group">
+                     <label >Quantiter</label>
+                     <h:inputText styleClass="form-control"  value="#{dash.cmd.quantite}" ></h:inputText>
+                  </div>
+                    <div class="form-group">
+                     <label >Date Cmd</label>
+                     <h:inputText styleClass="form-control" value="#{dash.cmd.dateCommande}" ></h:inputText>
+                  </div>
+                  <h:commandButton  styleClass="btn btn-primary" value="Ajouter Cmd" action="#{dash.Addcommand()}"> </h:commandButton>
+            </div>
+         
+      </div>
+   </h:form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Ajouter Produit  Model  -->
+ 
+  
+  <div class="modal fade" id="addProd">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">Ajouter Prod</h5>
+          <button class="close" data-dismiss="modal">
+                   x
+          </button>
+        </div>
+        <div class="modal-body">
+     <h:form>
+         <div class="col-md-6 col-sm-12 mx-auto">
+            <div class="login-form">
+                    <div class="form-group">
+                     <label >Categorie</label>
+                     <h:selectOneMenu styleClass="form-control"  value="#{dash.catvalue}" >
+		             <f:selectItems value="#{dash.listdropcat.entrySet()}" var="entry" 
+                        itemValue="#{entry.key}" itemLabel="#{entry.value}"  />
+		            </h:selectOneMenu>
+                  </div>
+                     <div class="form-group">
+                     <label >Libele</label>
+                     <h:inputText styleClass="form-control"  value="#{dash.prod.libele}" ></h:inputText>
+                  </div>
+
+                    <div class="form-group">
+                     <label >Prix</label>
+                     <h:inputText styleClass="form-control" value="#{dash.prod.prix}"   ></h:inputText>
+                  </div>
+                  <h:commandButton  styleClass="btn btn-danger" value="Ajouter Produit" action="#{dash.AddProduit()}" > </h:commandButton>
+            </div>
+         
+      </div>
+   </h:form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+  <!-- Model categorie   -->
+  
+  <div class="modal fade" id="addcat">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-warning text-white">
+          <h5 class="modal-title">Ajouter Categorie</h5>
+          <button class="close" data-dismiss="modal">
+                   x
+          </button>
+        </div>
+        <div class="modal-body">
+     <h:form>
+         <div class="col-md-6 col-sm-12 mx-auto">
+            <div class="login-form">
+                    <div class="form-group">
+                     <label >Libele Categorie</label>
+                    
+                     <h:inputText styleClass="form-control"  value="#{dash.cat.libeleCat}" ></h:inputText>
+                  </div>
+                  
+                  <h:commandButton  styleClass="btn btn-warning" value="Ajouter categorie" action="#{dash.AddCategory()}" > </h:commandButton>
+            </div>
+         
+      </div>
+   </h:form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  <!-- User Model  -->
+  
+    <!-- Model User   -->
+  
+  <div class="modal fade" id="addclient">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Ajouter Client</h5>
+          <button class="close" data-dismiss="modal">
+                   x
+          </button>
+        </div>
+        <div class="modal-body">
+     <h:form>
+         <div class="col-md-6 col-sm-12 mx-auto">
+            <div class="login-form">
+                    <div class="form-group">
+                     <label >Num tel </label>
+                     <h:inputText styleClass="form-control" value="#{dash.cl.numTel}"  ></h:inputText>
+                  </div>
+                  
+                   <div class="form-group">
+                     <label >Nom </label>
+                     <h:inputText styleClass="form-control"  value="#{dash.cl.nom}" ></h:inputText>
+                  </div>
+                   <div class="form-group">
+                     <label >Prenom </label>
+                     <h:inputText styleClass="form-control"  value="#{dash.cl.prenom}" ></h:inputText>
+                  </div>
+                   <div class="form-group">
+                     <label >Email </label>
+                     <h:inputText styleClass="form-control" value="#{dash.cl.email}"  ></h:inputText>
+                  </div>
+                   <div class="form-group">
+                     <label >Sexe </label>
+                     <!-- Radio btn   -->
+                     <h:selectOneRadio styleClass="form-check"  value="#{dash.cl.sexe}" >
+                       <f:selectItem  styleClass="form-check-label" itemValue="home" itemLabel=" Homme "/>
+                        <f:selectItem  styleClass="form-check-label" itemValue="femme" itemLabel=" Femme "/>
+                     </h:selectOneRadio>
+                  </div>
+                  
+                  
+                  <h:commandButton  styleClass="btn btn-success" value="Ajouter Client"  action="#{dash.AddClient()}"> </h:commandButton>
+            </div>
+         
+      </div>
+   </h:form>
+        </div>
+      </div>
+    </div>
+  </div>
+</h:body>
+ 
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+
+</html>
